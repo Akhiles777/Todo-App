@@ -6,18 +6,20 @@ import './App.css'
 
 
 
-interface Todo{
+/*interface Todo{
     text: string,
     done: boolean,
     todos: object,
     id: number
-}
+}*/
 
 function App() {
 
     const [todos,setTodos] = useState<string[]>([])
     const [text, setText] = useState<string>('')
+/*
     const [done, setDone] = useState<boolean>(false)
+*/
     const [size, setSize] = useState<string>('App')
 
 
