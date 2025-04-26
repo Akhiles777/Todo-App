@@ -6,44 +6,72 @@ import './App.css'
 
 
 
-/*interface Todo{
+type Todo = {
     text: string,
-    done: boolean,
-    todos: object,
-    id: number
-}*/
+    time: string,
+}
 
 function App() {
 
-    const [todos,setTodos] = useState<string[]>([])
+    const [todos,setTodos] = useState<Todo[]>([])
     const [text, setText] = useState<string>('')
-/*
+
     const [done, setDone] = useState<boolean>(false)
-*/
+
     const [size, setSize] = useState<string>('App')
 
+    const [check, setCheck] = useState<string>('span')
 
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const [time, setTime] = useState<string>('00:00')
+
+
+    const onChange1 = (e: ChangeEvent<HTMLInputElement>) => {
         setText(e.target.value)
-
     }
+
+    const onChange2 = (e: ChangeEvent<HTMLInputElement>) => {
+        setTime(e.target.value)
+    }
+
 
 
     const onSubmit = (e: MouseEvent<HTMLButtonElement>)=> {
 e.preventDefault()
 
-        setTodos([...todos,text])
+      setTodos(todos => [
+              ...todos,
+          {text:text,time:time}
+      ])
+
+
         setText('')
 
         setSize('App-none')
 
 
         if(!text){
+            setTodos([])
             setSize('App')
             alert('Введите задачу')
             return
         }
 
+
+    }
+
+
+
+    const onCheked = () => {
+
+ if(!done){
+
+     setDone(true)
+
+     setCheck('span-line')
+ }else {
+     setDone(false)
+     setCheck('span')
+ }
 
     }
 
@@ -67,8 +95,10 @@ e.preventDefault()
               <h2>Todo-APP</h2>
 
               <div className="input-container">
-                  <input onChange={onChange} value={text} placeholder="Введите задачу" className="input-field"
+                  <input onChange={onChange1} value={text} placeholder="Введите задачу" className="input-field"
                          type="text"/>
+
+                  <h3>Дата начала: <input type='time' className='input-time' value={time} onChange={onChange2}/></h3>
                   <label htmlFor="input-field" className="input-label">Добавьте задачу</label>
                   <span className="input-highlight"/>
               </div>
@@ -79,9 +109,16 @@ e.preventDefault()
 
           {todos.map(todo => {
               return (
-                  <div>
-                      {todo}
-                      <input type='checkbox'/>
+                  <div className='todo-list'>
+
+                      <span className={check}>   {todo.text}</span>
+                      <span className={check}>-{todo.time}</span>
+
+
+                          <input onChange={onCheked} checked={done}  type="checkbox"/>
+
+
+
                   </div>
               )
           })}
